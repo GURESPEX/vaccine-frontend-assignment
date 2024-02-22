@@ -49,7 +49,7 @@ export default function Result() {
         })}
       </div>
       <div
-        className={`px-2 py-1 border ${
+        className={`px-4 py-2 border ${
           personValidate?.status ? "border-green-200" : "border-red-200"
         } ${
           personValidate?.status ? "bg-green-100" : "bg-red-100"

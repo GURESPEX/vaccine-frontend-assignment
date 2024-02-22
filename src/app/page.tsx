@@ -13,7 +13,7 @@ const initialState: FormError = null;
 
 export default function Page() {
   const { person, setPerson } = usePersonStore();
-  const [state, formAction] = useFormState<FormError>(submit, initialState);
+  const [state, formAction] = useFormState(submit, initialState);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
@@ -82,7 +82,7 @@ export default function Page() {
         </div>
         {state && (
           <div
-            className={`px-2 py-1 border ${
+            className={`px-4 py-2 border ${
               state.status ? "border-green-200" : "border-red-200"
             } ${
               state.status ? "bg-green-100" : "bg-red-100"
