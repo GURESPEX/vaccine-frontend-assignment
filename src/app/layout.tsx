@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import { IBM_Plex_Sans_Thai } from "next/font/google";
 import "@/app/globals.css";
 
-const inter = IBM_Plex_Sans_Thai({
+const ibm = IBM_Plex_Sans_Thai({
   weight: ["100", "200", "300", "400", "500", "600", "700"],
   subsets: ["thai"],
 });
@@ -14,18 +14,15 @@ export const metadata: Metadata = {
 
 export default function Layout({
   children,
-  modal,
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
-        <div className="flex flex-row justify-center h-screen p-16">
-          <div className="relative container flex flex-col items-center gap-4">
+      <body className={ibm.className}>
+        <div className="relative flex flex-row justify-center w-screen h-screen bg-slate-950 bg-opacity-5">
+          <div className="container flex flex-col items-center gap-4 p-16">
             {children}
-            {modal}
           </div>
         </div>
       </body>

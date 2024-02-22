@@ -1,10 +1,10 @@
 "use client";
 import InputForm from "@/components/InputForm";
 import SelectForm from "@/components/SelectForm";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useFormState } from "react-dom";
-import { submit } from "../actions";
-import { FormError } from "../types/form";
+import { submit } from "./actions";
+import { FormError } from "./types/form";
 import Link from "next/link";
 
 const initialState: FormError = null;
@@ -19,7 +19,11 @@ type PersonData = {
 export default function Page() {
   const personData = useState<PersonData>();
   const [state, formAction] = useFormState<FormError>(submit, initialState);
-  console.log(state);
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    setShowModal(state ? state.status : false);
+  }, [state]);
 
   return (
     <>
@@ -84,6 +88,7 @@ export default function Page() {
             {state.message}
           </div>
         )}
+        <hr />
         <div className="flex flex-row gap-4">
           <button
             className="px-4 py-2 border border-sky-500 rounded bg-sky-400 active:bg-sky-600 drop-shadow text-white w-full transition"
@@ -98,16 +103,37 @@ export default function Page() {
             ล้างค่า
           </button>
         </div>
-        <div className="flex flex-row gap-4">
-          <Link
-            href={"/info"}
-            className="px-4 py-2 border border-sky-500 rounded bg-sky-400 active:bg-sky-600 drop-shadow text-white text-center w-full transition"
-            type="submit"
-          >
-            Go to Info
-          </Link>
-        </div>
       </form>
+      {showModal && (
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center gap-4 p-16 backdrop-blur bg-slate-950 bg-opacity-25">
+          <div className="flex flex-col gap-4 p-4 border border-slate-50 rounded bg-white drop-shadow-sm w-full min-w-96 max-w-[512px]">
+            <h1 className="flex text-2xl font-bold">ยืนยันข้อมูล</h1>
+            <hr />
+            {state?.data?.personName}
+            {state?.data?.personId}
+            {state?.data?.gender}
+            {state?.data?.dateOfBirth}
+            <hr />
+            <div className="flex flex-row gap-4">
+              <Link
+                href={"/result"}
+                className="px-4 py-2 border border-sky-500 rounded bg-sky-400 active:bg-sky-600 drop-shadow text-white text-center w-full transition"
+              >
+                ตรวจสอบ
+              </Link>
+              <button
+                onClick={() => {
+                  setShowModal(false);
+                }}
+                className="px-4 py-2 border border-slate-400 rounded bg-slate-300 active:bg-slate-400 drop-shadow text-center w-full transition"
+                type="button"
+              >
+                ย้อนกลับ
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

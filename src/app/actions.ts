@@ -5,10 +5,10 @@ export async function submit(state: FormError, formData: FormData) {
         status: false
     }
 
-    const personName = formData.get("personName") || null;
-    const personId = formData.get("personId") || null;
-    const gender = formData.get("gender") || null;
-    const dateOfBirth = formData.get("dateOfBirth") && new Date(formData.get("dateOfBirth") as string);
+    const personName = formData.get("personName") as string || null;
+    const personId = formData.get("personId") as string || null;
+    const gender = formData.get("gender") as string || null;
+    const dateOfBirth = formData.get("dateOfBirth") as string || null;
 
     console.log({
         personName,
@@ -28,7 +28,14 @@ export async function submit(state: FormError, formData: FormData) {
     } else if (!dateOfBirth) {
         formError = { status: false, message: "โปรดระบุวันเดือนปีเกิด" }
     } else {
-        formError = { status: true, message: "ข้อมูลครบถ้วน" }
+        formError = {
+            status: true, message: "ข้อมูลครบถ้วน", data: {
+                personName,
+                personId,
+                gender,
+                dateOfBirth
+            }
+        }
     }
 
     return formError;
