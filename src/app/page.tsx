@@ -6,24 +6,29 @@ import { useFormState } from "react-dom";
 import { submit } from "./actions";
 import { FormError } from "./types/form";
 import Link from "next/link";
+import { PersonData } from "./types/person";
+import { usePersonStore } from "./stores";
 
 const initialState: FormError = null;
 
-type PersonData = {
-  personName: string;
-  personId: string;
-  gender: string;
-  dateOfBirth: string;
-};
-
 export default function Page() {
-  const personData = useState<PersonData>();
+  const { person, setPerson } = usePersonStore();
   const [state, formAction] = useFormState<FormError>(submit, initialState);
   const [showModal, setShowModal] = useState<boolean>(false);
 
   useEffect(() => {
-    setShowModal(state ? state.status : false);
+    if (!!state?.status) {
+      setPerson({
+        personName: state?.data?.personName as string,
+        personId: state?.data?.personId as string,
+        gender: state?.data?.gender as string,
+        dateOfBirth: state?.data?.dateOfBirth as string,
+      });
+    }
+    setShowModal(!!state?.status);
   }, [state]);
+
+  console.log("person", person);
 
   return (
     <>
@@ -109,10 +114,27 @@ export default function Page() {
           <div className="flex flex-col gap-4 p-4 border border-slate-50 rounded bg-white drop-shadow-sm w-full min-w-96 max-w-[512px]">
             <h1 className="flex text-2xl font-bold">ยืนยันข้อมูล</h1>
             <hr />
-            {state?.data?.personName}
-            {state?.data?.personId}
-            {state?.data?.gender}
-            {state?.data?.dateOfBirth}
+            <div>ชื่อ-นามสกุล : {person?.personName}</div>
+            <div>
+              เลขบัตรประจำตัวประชาชน :{" "}
+              {person?.personId.replace(
+                /(\d{1})(\d{4})(\d{5})(\d{2})(\d{1})/,
+                "$1-$2-$3-$4-$5"
+              )}
+            </div>
+            <div>เพศ{person?.gender == "male" ? "ชาย" : "หญิง"}</div>
+            <div>
+              เกิด
+              {new Date(person?.dateOfBirth as string).toLocaleDateString(
+                "th-TH",
+                {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  weekday: "long",
+                }
+              )}
+            </div>
             <hr />
             <div className="flex flex-row gap-4">
               <Link

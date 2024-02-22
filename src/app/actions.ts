@@ -1,3 +1,5 @@
+"use server"
+
 import { FormError } from "./types/form";
 
 export async function submit(state: FormError, formData: FormData) {
@@ -9,13 +11,6 @@ export async function submit(state: FormError, formData: FormData) {
     const personId = formData.get("personId") as string || null;
     const gender = formData.get("gender") as string || null;
     const dateOfBirth = formData.get("dateOfBirth") as string || null;
-
-    console.log({
-        personName,
-        personId,
-        gender,
-        dateOfBirth
-    });
 
     if (!personName) {
         formError = { status: false, message: "โปรดกรอกชื่อและนามสกุล" }
