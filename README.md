@@ -3,6 +3,7 @@
 - Next.js
 - React
 - TailwindCSS
+- NodeJS v21.4.0
 
 ## Install Dependency
 
