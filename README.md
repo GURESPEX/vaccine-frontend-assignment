@@ -1,9 +1,13 @@
 # Developing
 
+- Next.js
+- React
+- TailwindCSS
+
 ## Install Dependency
 
 ```bash
-npm i # or npm install
+npm install
 ```
 
 ## Run
