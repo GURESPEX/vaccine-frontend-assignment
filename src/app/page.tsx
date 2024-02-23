@@ -6,7 +6,6 @@ import { useFormState } from "react-dom";
 import { submit } from "./actions";
 import { FormError } from "./types/form";
 import Link from "next/link";
-import { PersonData } from "./types/person";
 import { usePersonStore } from "./stores";
 
 const initialState: FormError = null;
@@ -44,14 +43,14 @@ export default function Page() {
           labelName="ชื่อ-นามสกุล"
           placeholder="กรอกชื่อและนามสกุล"
           maxLength={100}
+          validateTyping={/[\u0e01-\u0e39\u0e40-\u0e4dA-Za-z]/}
           required
         />
         <InputForm
           name="personId"
-          type="number"
+          type="text"
           labelName="เลขบัตรประจำตัวประชาชน"
           placeholder="กรอกเลขบัตรประจำตัวประชาชน 13 หลัก"
-          maxLength={13}
           required
         />
 
@@ -110,7 +109,7 @@ export default function Page() {
         </div>
       </form>
       {showModal && (
-        <div className="absolute top-0 left-0 w-full h-full flex flex-col items-center gap-4 p-16 backdrop-blur bg-slate-950 bg-opacity-25">
+        <div className="absolute top-0 left-0 w-full h-full flex flex-col justify-center items-center gap-4 p-16 backdrop-blur bg-slate-950 bg-opacity-25">
           <div className="flex flex-col gap-4 p-4 border border-slate-50 rounded bg-white drop-shadow-sm w-full min-w-96 max-w-[512px]">
             <h1 className="flex text-2xl font-bold">ยืนยันข้อมูล</h1>
             <hr />

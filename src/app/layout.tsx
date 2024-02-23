@@ -21,7 +21,7 @@ export default function Layout({
     <html lang="en">
       <body className={ibm.className}>
         <div className="relative flex flex-row justify-center w-screen h-screen bg-slate-950 bg-opacity-5">
-          <div className="container flex flex-col items-center gap-4 p-16">
+          <div className="container flex flex-col justify-center items-center gap-4 p-16">
             {children}
           </div>
         </div>

@@ -9,6 +9,78 @@ type Validate = {
   message?: string;
 } | null;
 
+function getBirthdate(age: { years: number; months: number; days: number }) {
+  const date = new Date();
+  date.setFullYear(date.getFullYear() - age.years);
+  date.setMonth(date.getMonth() - age.months);
+  date.setDate(date.getDate() - age.days);
+  return date;
+}
+
+function validate(dateOfBirth: string): Validate {
+  const birthday = new Date(dateOfBirth);
+  const startDate = new Date("2023-06-01");
+  const endDate = new Date("2023-08-31");
+  const today = endDate;
+
+  if (
+    startDate.getTime() <= today.getTime() &&
+    today.getTime() <= endDate.getTime()
+  ) {
+    console.log("อยู่ในช่วงรับวัคซีน");
+    if (birthday > _0Y6M0DBirthdate) {
+      return {
+        status: false,
+        message: `เนื่องจากอายุไม่ถึง 6 เดือน วันที่ ${birthday.toLocaleDateString(
+          "th-TH",
+          {
+            month: "long",
+            day: "numeric",
+          }
+        )} พ.ศ. ${birthday.getFullYear() + 543}`,
+      };
+    } else if (birthday >= _2Y0M0DBirthdate) {
+      return { status: true };
+    } else if (birthday > _65Y0M0DBirthdate) {
+      return {
+        status: false,
+        message: `เนื่องจากอายุไม่ถึง 65 ปี วันที่ ${birthday.toLocaleDateString(
+          "th-TH",
+          {
+            month: "long",
+            day: "numeric",
+          }
+        )} พ.ศ. ${birthday.getFullYear() + 543}`,
+      };
+    } else if (birthday <= _65Y0M0DBirthdate) {
+      return {
+        status: false,
+        message: `เนื่องจากอายุเกิน 65 ปี`,
+      };
+    } else {
+      return { status: true };
+    }
+  } else {
+    return { status: false, message: "เนื่องจากไม่อยู่ในช่วงรับวัคซีน" };
+  }
+}
+
+const _0Y6M0DBirthdate = getBirthdate({
+  years: 0,
+  months: 6,
+  days: 0,
+});
+const _2Y0M0DBirthdate = getBirthdate({
+  years: 2,
+  months: 0,
+  days: 0,
+});
+const _65Y0M0DBirthdate = getBirthdate({
+  years: 65,
+  months: 0,
+  days: 0,
+});
+
 export default function Result() {
   const { person, setPerson } = usePersonStore();
 
@@ -16,19 +88,11 @@ export default function Result() {
     redirect("/");
   }
 
-  function validate(dateOfBirth: string): Validate {
-    const dob = new Date(dateOfBirth);
-
-    console.log(dob.getTime());
-
-    return { status: false, message: "เนื่องจาก..." };
-  }
-
   const personValidate = validate(person.dateOfBirth);
 
   return (
     <div className="flex flex-col gap-4 p-4 border border-slate-50 rounded bg-white drop-shadow-sm w-full min-w-96 max-w-[512px]">
-      <h1 className="flex text-2xl font-bold">ผลลัพท์</h1>
+      <h1 className="flex text-2xl font-bold">ผลลัพธ์</h1>
       <hr />
       <div>ชื่อ-นามสกุล : {person?.personName}</div>
       <div>

@@ -6,6 +6,7 @@ type Props = {
   maxLength?: number;
   max?: string | number | undefined;
   required?: boolean;
+  validateTyping?: RegExp;
 };
 
 export default function InputForm({
@@ -16,6 +17,7 @@ export default function InputForm({
   maxLength,
   max,
   required,
+  validateTyping,
 }: Props) {
   return (
     <div className="flex flex-col gap-1.5 w-full">
@@ -34,6 +36,11 @@ export default function InputForm({
         placeholder={placeholder}
         maxLength={maxLength}
         max={max}
+        onKeyPress={(e) => {
+          if (!validateTyping?.test(e.key) && validateTyping) {
+            e.preventDefault();
+          }
+        }}
       />
     </div>
   );
